@@ -37,12 +37,15 @@ class _MyHomePageState extends State<MyHomePage> {
   int countUp = 18;
   int countNoAnimation = 100;
   int countDiffPositioned = 15;
+  int countFirstItemButton = 5;
+  int countSecondItemButton = 0;
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
         ),
+        bottomNavigationBar: buildBottomBar(),
         body: Container(
           color: Colors.green[100],
           padding: EdgeInsets.all(32),
@@ -106,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     //shape: BadgeShape.square,
                     position: BadgePosition.topStart(),
                     child: ElevatedButton(
-                      onPressed: () => setState(() => countNoAnimation += 1),
+                      onPressed: () => setState(() => countDiffPositioned += 1),
                       child: Text('Badge en otra posición',
                           style: TextStyle(fontSize: 20)),
                       style: ElevatedButton.styleFrom(
@@ -120,4 +123,50 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       );
+
+  Widget buildBottomBar() => BottomNavigationBar(
+        backgroundColor: Colors.red,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white70,
+        currentIndex: 1,
+        items: [
+          BottomNavigationBarItem(
+            icon: buildCustomBadge(
+                counter: countFirstItemButton,
+                child: Icon(Icons.favorite_border)),
+            title: Text('Favourites'),
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.notifications_active_rounded),
+              title: Text('Notificaciones')),
+        ],
+      );
+}
+
+Widget buildCustomBadge({
+  required int counter,
+  required Widget child,
+}) {
+  final text = counter.toString();
+
+  return Stack(
+    overflow: Overflow.visible,
+    children: [
+      child,
+      Positioned(
+          top: -6,
+          right: -20,
+          child: CircleAvatar(
+            backgroundColor: Colors.white,
+            radius: 10,
+            child: Text(
+              text,
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+          )),
+    ],
+  );
 }
