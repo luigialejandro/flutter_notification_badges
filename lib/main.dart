@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Badges everywhere'),
     );
   }
 }
@@ -33,17 +33,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int countFavourites = 35;
-  int countUp = 18;
-  int countNoAnimation = 100;
-  int countDiffPositioned = 15;
+  int countFavourites = 100;
+  int countUp = 1;
+  int countNoAnimation = 9;
+  int countDiffPositioned = 35;
   int countFirstItemButton = 5;
   int countSecondItemButton = 0;
+  int countContainer = 15;
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
+          centerTitle: true,
         ),
         bottomNavigationBar: buildBottomBar(),
         body: Container(
@@ -53,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Spacer(),
                 Badge(
                     badgeContent: Text(
                       '$countFavourites',
@@ -62,10 +65,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: IconButton(
                       onPressed: () => setState(() => countFavourites += 1),
                       icon: Icon(Icons.perm_contact_calendar),
-                      iconSize: 80,
+                      iconSize: 60,
                     )),
                 SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
                 Badge(
                     badgeContent: Text('$countUp'),
@@ -73,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: ElevatedButton(
                       onPressed: () => setState(() => countUp += 1),
                       child: Text('Botón de incremento',
-                          style: TextStyle(fontSize: 20)),
+                          style: TextStyle(fontSize: 16)),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.lightBlue,
                         padding:
@@ -81,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     )),
                 SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
                 Badge(
                     badgeContent: Text(
@@ -93,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: ElevatedButton(
                       onPressed: () => setState(() => countNoAnimation -= 1),
                       child: Text('Botón de decremento',
-                          style: TextStyle(fontSize: 20)),
+                          style: TextStyle(fontSize: 16)),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.lightGreen,
                         padding:
@@ -101,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     )),
                 SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
                 Badge(
                     badgeContent: Text('$countDiffPositioned'),
@@ -111,13 +114,28 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: ElevatedButton(
                       onPressed: () => setState(() => countDiffPositioned += 1),
                       child: Text('Badge en otra posición',
-                          style: TextStyle(fontSize: 20)),
+                          style: TextStyle(fontSize: 16)),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.teal,
                         padding:
                             EdgeInsets.symmetric(horizontal: 60, vertical: 15),
                       ),
                     )),
+                SizedBox(height: 20),
+                Badge(
+                  badgeContent: Text('$countContainer'),
+                  badgeColor: Colors.blue,
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    color: Colors.brown[200],
+                    child: Center(
+                        child: Text('C',
+                            style:
+                                TextStyle(fontSize: 22, color: Colors.white))),
+                  ),
+                ),
+                Spacer(),
               ],
             ),
           ),
@@ -132,12 +150,13 @@ class _MyHomePageState extends State<MyHomePage> {
         items: [
           BottomNavigationBarItem(
             icon: buildCustomBadge(
-                counter: countFirstItemButton,
-                child: Icon(Icons.favorite_border)),
+                counter: countUp, child: Icon(Icons.favorite_border)),
             title: Text('Favourites'),
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.notifications_active_rounded),
+              icon: buildCustomBadge(
+                  counter: countNoAnimation,
+                  child: Icon(Icons.notifications_active_rounded)),
               title: Text('Notificaciones')),
         ],
       );
